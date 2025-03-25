@@ -33,11 +33,11 @@ def detail(request, id):
             answer.save()
             return redirect('golla_app:detail', id=question.id)
 
-    count = answers.count()
     a_count = answers.filter(selected='A').count()
     b_count = answers.filter(selected='B').count()
-    a_percent = round((a_count / count) * 100, 1) if count else 0
-    b_percent = round((b_count / count) * 100, 1) if count else 0
+    total = answers.count()
+    a_percent = round((a_count / total) * 100, 1) if total else 0
+    b_percent = round((b_count / total) * 100, 1) if total else 0
 
     context = {
         'question': question,
@@ -47,6 +47,17 @@ def detail(request, id):
         'b_percent': b_percent,
     }
     return render(request, 'golla_app/detail.html', context)
+
+def edit_answer(request, answer_id):
+    answer = get_object_or_404(Answer, id=answer_id)
+    if request.method == 'POST':
+        form = AnswerForm(request.POST, instance=answer)
+        if form.is_valid():
+            form.save()
+            return redirect('golla_app:detail', id=answer.question.id)
+    else:
+        form = AnswerForm(instance=answer)
+    return render(request, 'golla_app/edit_answer.html', {'form': form, 'answer': answer})
 
 def random_article(request):
     questions = Question.objects.all()

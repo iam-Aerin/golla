@@ -1,19 +1,67 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>{{ article.title }}</h1>
-    <p>{{ article.content }}</p>
-    <a href="{% url 'golla_app:update' article.id %}">update</a>
-    <a href="{% url 'golla_app:delete' article.id %}">delete</a>
-    <h2>Comments</h2>
-    <ul>
-        {% for comment in comments %}
-            <li>{{ comment.content }} <a href="{% url 'golla_app:comment_delete' article.id comment.id %}">delete</a></li>
-        {% endfor %}
-    </ul>
-    <form method="post" action="{% url 'golla_app:comment_create' article.id %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add comment</button>
-    </form>
+<div class="row mb-4 progress-container">
+  <div class="col-12">
+    <div class="progress">
+      <div class="progress-bar bg-primary" role="progressbar" style="width: {{ a_percent }}%" aria-valuenow="{{ a_percent }}" aria-valuemin="0" aria-valuemax="100">{{ a_percent }}%</div>
+      <div class="progress-bar bg-danger" role="progressbar" style="width: {{ b_percent }}%" aria-valuenow="{{ b_percent }}" aria-valuemin="0" aria-valuemax="100">{{ b_percent }}%</div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-12 text-center">
+    <h5>{{ question.title }}</h5>
+  </div>
+</div>
+
+<div class="row mb-4 d-flex justify-content-center"> <!-- 클래스 추가 -->
+  <div class="col-md-6">
+    <div class="p-3 text-white bg-primary rounded text-center"> <!-- text-center 클래스 추가 -->
+      <p>A : {{ question.choice_a }}</p>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="p-3 text-white bg-danger rounded text-center"> <!-- text-center 클래스 추가 -->
+      <p>B : {{ question.choice_b }}</p>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<form method="POST">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label>둘 중에 뭐?</label>
+    {{ form.selected }}
+    {% if form.selected.errors %}
+      <div class="text-danger">{{ form.selected.errors }}</div>
+    {% endif %}
+  </div>
+  <div class="mb-3">
+    <label>의견 ! </label>
+    {{ form.comment }}
+    {% if form.comment.errors %}
+      <div class="text-danger">{{ form.comment.errors }}</div>
+    {% endif %}
+  </div>
+  <div class="d-flex justify-content-end"> <!-- flex 컨테이너 추가 -->
+    <button class="btn btn-primary custom-submit-btn ms-auto" type="submit">Submit</button> <!-- ms-auto 클래스 추가 -->
+  </div>
+</form>
+
+<hr>
+
+<h3 class="mt-4">마음의 소리들...</h3> <!-- 여백 추가 -->
+{% for answer in answers %}
+  <div class="p-2 mb-2 rounded {% if answer.selected == 'A' %}bg-primary text-white{% else %}bg-danger text-white{% endif %}">
+    <strong>{{ answer.selected }}</strong> - {{ answer.comment }}
+    <a href="{% url 'golla_app:edit_answer' answer.id %}" class="edit-link float-end">Edit</a>
+  </div>
+{% empty %}
+  <p>아직 답변이 없습니다.</p>
+{% endfor %}
+
 {% endblock %}

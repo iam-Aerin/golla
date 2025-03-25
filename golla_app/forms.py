@@ -12,10 +12,21 @@ class QuestionForm(forms.ModelForm):
         }
 
 class AnswerForm(forms.ModelForm):
+    selected = forms.ChoiceField(
+        choices=[('A', 'A'), ('B', 'B')],
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        required=True,  # 필수 선택
+        label='답변:'
+    )
+
     class Meta:
         model = Answer
         fields = ['selected', 'comment']
         widgets = {
-            'selected': forms.TextInput(attrs={'placeholder': 'A 또는 B'}),
-            'comment': forms.Textarea(attrs={'placeholder': '내용을 입력하세요.'}),
+            'comment': forms.Textarea(attrs={
+                'placeholder': '내용을 입력하세요.',
+                'class': 'form-control',
+                'rows': 4,
+                'required': True,  # 필수 입력
+            }),
         }

@@ -10,7 +10,9 @@ class Question(models.Model):
         return self.title
 
 class Answer(models.Model):
+    CHOICES = [('A', 'A'), ('B', 'B')]  # ← 이 줄 추가!
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    selected = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B')])
+    selected = models.CharField(max_length=1, choices=CHOICES)
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
