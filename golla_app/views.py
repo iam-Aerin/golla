@@ -1,106 +1,46 @@
-import random
-from django.shortcuts import render, redirect
-from .forms import ArticleForm, CommentForm
-from .models import Article, Comment
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Question, Answer
+from .forms import QuestionForm, AnswerForm
 
-# Create your views here.
-def create(request):
+def question_list(request):
+    questions = Question.objects.order_by('-created_at')
+    return render(request, 'golla_app/question_list.html', {'questions': questions})
+
+def question_create(request):
     if request.method == 'POST':
-        form = ArticleForm(request.POST)
+        form = QuestionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('golla_app:index')  # 수정된 부분
+            return redirect('question-list')
     else:
-        form = ArticleForm()
+        form = QuestionForm()
+    return render(request, 'golla_app/question_create.html', {'form': form})
 
-    context = {
-        'form': form,
-    }
+def question_detail(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    answers = question.answers.all()
+    form = AnswerForm()
 
-    return render(request, 'create.html', context)
-
-
-def index(request):
-    articles = Article.objects.all()
-
-    context = {
-        'articles': articles,
-    }
-
-    return render(request, 'index.html', context)
-
-
-def detail(request, id):
-    article = Article.objects.get(id=id)
-    comments = article.comment_set.all()
-    
-    form = CommentForm()
-
-    context = {
-        'article': article,
-        'form': form,
-        'comments': comments,
-    }
-
-    return render(request, 'detail.html', context)
-
-
-def update(request, id):
-    article = Article.objects.get(id=id)
     if request.method == 'POST':
-        form = ArticleForm(request.POST, instance=article)
+        form = AnswerForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('golla_app:detail', id=id)  # 수정된 부분
-        
-    else:
-        form = ArticleForm(instance=article)
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.save()
+            return redirect('question-detail', pk=pk)
+
+    # 통계 계산
+    total = answers.count()
+    a_count = answers.filter(selected='A').count()
+    b_count = answers.filter(selected='B').count()
+    a_percent = round((a_count / total) * 100, 2) if total else 0
+    b_percent = round((b_count / total) * 100, 2) if total else 0
 
     context = {
+        'question': question,
+        'answers': answers,
         'form': form,
+        'a_percent': a_percent,
+        'b_percent': b_percent,
     }
-
-    return render(request, 'update.html', context)
-
-
-def delete(request, id):
-    article = Article.objects.get(id=id)
-    article.delete()
-
-    return redirect('golla_app:index')  # 수정된 부분
-
-
-def comment_create(request, article_id):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-
-            article = Article.objects.get(id=article_id)
-            comment.article = article
-            comment.save()
-
-            return redirect('golla_app:detail', id=article_id)  # 수정된 부분
-
-    else:
-        return redirect('golla_app:index')  # 수정된 부분
-
-
-def comment_delete(request, article_id, id):
-    comment = Comment.get(id=id)
-    comment.delete()
-
-    return redirect('golla_app:detail', id=article_id)  # 수정된 부분
-
-# 랜덤으로 게시물 보여주는 함수
-
-def random_article(request):
-    articles = Article.objects.all()
-    if articles:
-        article = random.choice(articles)
-        context = {
-            'article': article,
-        }
-        return render(request, 'random.html', context)
-    else:
-        return redirect('golla_app:index')
+    return render(request, 'golla_app/question_detail.html', context)
