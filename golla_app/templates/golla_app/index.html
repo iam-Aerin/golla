@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h2 class="my-4">전체 질문 목록</h2>
+
+{% if questions %}
+  <ul class="list-group">
+    {% for question in questions %}
+      <li class="list-group-item">
+        <a href="{% url 'golla_app:detail' question.id %}">
+          {{ question.title }}
+        </a>
+        <br>
+        <small class="text-muted">보기 A: {{ question.choice_a }} / 보기 B: {{ question.choice_b }}</small>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>등록된 질문이 없습니다.</p>
+{% endif %}
+
+{% endblock %}

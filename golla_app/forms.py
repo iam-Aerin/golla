@@ -1,30 +1,21 @@
-from django.forms import ModelForm
 from django import forms
-from .models import Article, Comment
+from .models import Question, Answer
 
-class ArticleForm(ModelForm):
-    title = forms.CharField(
-        widget=forms.TextInput(
-            attrs={'class': 'form-control'}
-        )
-    )
-    # content =  
-    class Meta():
-        model = Article
-        fields = '__all__'
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['title', 'choice_a', 'choice_b']
         widgets = {
-            'content': forms.Textarea(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'placeholder': '질문을 입력하세요.'}),
+            'choice_a': forms.TextInput(attrs={'placeholder': '보기 A를 입력하세요.'}),
+            'choice_b': forms.TextInput(attrs={'placeholder': '보기 B를 입력하세요.'}),
         }
 
-
-class CommentForm(ModelForm):
-    class Meta():
-        model = Comment
-        # fields = '__all__'
-
-        # fields => 추가할 필드 목록
-        # fields = ('content', )
-
-        # exclude => 제외할 필드 목록
-        exclude = ('article', )
-        
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['selected', 'comment']
+        widgets = {
+            'selected': forms.TextInput(attrs={'placeholder': 'A 또는 B'}),
+            'comment': forms.Textarea(attrs={'placeholder': '내용을 입력하세요.'}),
+        }
