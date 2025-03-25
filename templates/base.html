@@ -32,11 +32,11 @@
             border-color: #28a745;
         }
         .custom-submit-btn:hover {
-            background-color: #218838; /* 호버 시 색상 변경 */
+            background-color: #218838; 
             border-color: #1e7e34;
         }
         .progress {
-            height: 40px; /* progress bar 두께 키우기 */
+            height: 40px;
         }
         .large-image {
             max-width: 100%;
@@ -44,8 +44,19 @@
         }
         body {
             background-color: #000000; /* 화면 전체 배경색을 검정색으로 변경 */
-            color: #FFFFFF; /* 기본 글자 색상을 흰색으로 설정 */
+            color: #ffffff; /* 기본 글자 색상을 흰색으로 설정 */
         }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+    
+            color: #ffffff; /
+        }
+
     </style>
 </head>
 <body>
@@ -57,9 +68,10 @@
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup"> <!-- justify-content-center 클래스 추가 -->
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="{% url 'golla_app:index' %}">Home</a>
-                    <a class="nav-link" href="{% url 'golla_app:create' %}">Create</a>
-                    <a class="nav-link" href="{% url 'golla_app:random_article' %}">Random</a> <!-- 랜덤 질문 URL로 연결 -->
+                    <a class="nav-link active" aria-current="page" href="{% url 'golla_app:index' %}">집</a>
+                    <a class="nav-link" href="{% url 'golla_app:create' %}">만들기</a>
+                    <a class="nav-link" href="{% url 'golla_app:random_article' %}">내가 골라줌</a> <!-- 랜덤 질문 URL로 연결 -->
+                    <a class="nav-link" href="https://www.youtube.com/watch?v=e7Gdz_q4ZXw/" target="_blank">일안하고부자! 되세요 ^^*</a> <!-- 유튜브 링크로 연결 -->
                 </div>
             </div>
         </div>
@@ -69,6 +81,21 @@
         {% block body %}
         {% endblock %}
     </div>
+    
+    <div class="footer">
+        <span id="current-time"></span>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Seoul', hour12: false };
+            const timeString = now.toLocaleTimeString('ko-KR', options);
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

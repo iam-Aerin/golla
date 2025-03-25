@@ -3,7 +3,11 @@
 {% block body %}
 <div class="marquee-container">
     <div class="marquee">
-        <h2 class="my-4">  문제은행                                                                                     </h2>
+        <h2 class="my-4">
+            <span style="font-size: 1.1em;">공식</span>
+            <img src="https://image.donga.com/DAMG/ci/dongailbo.jpg" alt="Dongailbo Logo" style="height: 70px; vertical-align: middle;">
+            <span style="font-size: 1.1em;">문제은행</span>
+        </h2>
     </div>
 </div>
 
@@ -37,7 +41,6 @@
         color: #000000; /* 기본 글자 색상을 흰색으로 설정 */
         padding: 50px 0; /* 상하 여백 추가 */
         margin-bottom: 20px; /* 아래쪽 여백 추가 */
-
     }
 
     .marquee {
@@ -45,8 +48,13 @@
         animation: marquee 7.5s linear infinite; /* 속도 20배 빠르게 조정 */
     }
 
+    .marquee h2 {
+        display: inline;
+        padding: 0; /* 여백 제거 */
+        margin: 0; /* 여백 제거 */
+        letter-spacing: 0; /* 글자 간격 제거 */
+    }
 
-    
     @keyframes marquee {
         0% {
             transform: translateX(100%);

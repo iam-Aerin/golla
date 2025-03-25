@@ -12,9 +12,9 @@ class QuestionForm(forms.ModelForm):
         } 
         
         widgets = {
-            'title': forms.TextInput(attrs={'placeholder': '질문을 입력하세요.'}),
-            'choice_a': forms.TextInput(attrs={'placeholder': '보기 A를 입력하세요.'}),
-            'choice_b': forms.TextInput(attrs={'placeholder': '보기 B를 입력하세요.'}),
+            'title': forms.TextInput(attrs={'placeholder': '내공냠냠.'}),
+            'choice_a': forms.TextInput(attrs={'placeholder': '보기 A를 보기'}),
+            'choice_b': forms.TextInput(attrs={'placeholder': '보기 B를 보기'}),
         }
 
 class AnswerForm(forms.ModelForm):
