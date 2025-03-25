@@ -35,20 +35,31 @@
             background-color: #218838; /* 호버 시 색상 변경 */
             border-color: #1e7e34;
         }
+        .progress {
+            height: 40px; /* progress bar 두께 키우기 */
+        }
+        .large-image {
+            max-width: 100%;
+            height: auto;
+        }
+        body {
+            background-color: #000000; /* 화면 전체 배경색을 검정색으로 변경 */
+            color: #FFFFFF; /* 기본 글자 색상을 흰색으로 설정 */
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">골라 골라</a>
+            <a class="navbar-brand" href="{% url 'golla_app:random_image' %}"><strong>[단독] 이번주 LOTTO 번호 유출.......<더보기></strong></a> <!-- 랜덤 이미지 URL로 연결 -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav mx-auto"> <!-- mx-auto 클래스 추가 -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup"> <!-- justify-content-center 클래스 추가 -->
+                <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="{% url 'golla_app:index' %}">Home</a>
                     <a class="nav-link" href="{% url 'golla_app:create' %}">Create</a>
-                    <a class="nav-link" href="{% url 'golla_app:random' %}">Random</a>
+                    <a class="nav-link" href="{% url 'golla_app:random_article' %}">Random</a> <!-- 랜덤 질문 URL로 연결 -->
                 </div>
             </div>
         </div>

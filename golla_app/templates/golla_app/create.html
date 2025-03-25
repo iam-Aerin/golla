@@ -1,10 +1,112 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Create Article</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+<div class="container mt-5 text-center">
+    <h1 class="text-center">🖥️문제 출제하는 당신 멋져요🤖</h1>
+    <div class="position-relative">
+        <form method="post" class="d-flex flex-column align-items-center">
+            {% csrf_token %}
+            <div class="mb-3 w-50">
+                <label for="id_title" class="form-label">퀴즈왕이 출제한 퀴즈:</label>
+                {{ form.title }}
+            </div>
+            <div class="mb-3 w-50">
+                <label for="id_choice_a" class="form-label">🅰️: </label>
+                {{ form.choice_a }}
+            </div>
+            <div class="mb-3 w-50">
+                <label for="id_choice_b" class="form-label">🅱️: </label>
+                {{ form.choice_b }}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+<!-- 반복적으로 흘러가는 텍스트 박스 추가 -->
+<div class="marquee">
+    <p>아 골라 골라 골라 아 골라 골라 골라 아 골라 골라 골라 골라 Gollalla Golla 골라 골라 아 골라 골라 골라 골라 골라 골라 아 골라 golla 골라 골라 골라 골라 골라 골라 골라 골라 Gollalla Golla 골라 골라 아 골라 골라 골라 골라 골라 골라 아 골라 golla 골라 골라 골라 골라 골라 Golla golla .</p>
+</div>
+
+<!-- 자동차 이미지가 텍스트 박스 위를 지나가도록 설정 -->
+<div class="car-marquee">
+    <img src="https://cdn.crowdpic.net/detail-thumb/thumb_d_DA7D43E29A8DF145F33C7CDF240F96EE.png" alt="Car Image" class="car-image">
+</div>
+
+<!-- 추가 이미지가 상단에서 흘러가도록 설정 -->
+<div class="top-marquee">
+    <img src="https://i.namu.wiki/i/4gbfc_tP-fK8x-di1z5bs7kxnaxzDyJazaqKGxjTSXH1QrHgtVcx4ZLXAfbKb3_A6O-5f6ZD1Yt9D9ROl2IYlKt9WH7InuCyQZXh0bEZLvTTaTrKaQP9gXYFAsXfLFJi9FQvlfIzo4qZq3hTv10JPQ.webp" alt="Top Image" class="top-image">
+</div>
+
+<style>
+    .marquee {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        box-sizing: border-box;
+        background-color: #ff0000; /* 배경색 추가 */
+        padding: 20px 0; /* 상하 여백 추가 */
+        margin-top: 20px; /* 위쪽 여백 추가 */
+        position: fixed; /* 화면에 고정 */
+        bottom: 0; /* 화면 하단에 고정 */
+        left: 0; /* 왼쪽 끝에 고정 */
+    }
+
+    .marquee p {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 15s linear infinite;
+        font-size: 36px; /* 글자 크기 조정 */
+        color: #ffffff; /* 글자 색상 */
+    }
+
+    .car-marquee {
+        position: fixed;
+        bottom: 100px; /* 텍스트 박스 위에 위치 */
+        left: 100%;
+        animation: car-marquee 5s linear infinite; /* 속도 빠르게 조정 */
+    }
+
+    .car-image {
+        height: 500px; /* 이미지 높이 조정 (10배 크게) */
+    }
+
+    .top-marquee {
+        position: fixed;
+        top: 0; /* 화면 상단에 위치 */
+        right: 100%; /* 오른쪽에서 왼쪽으로 이동 */
+        animation: top-marquee 20s linear infinite; /* 속도 느리게 조정 */
+    }
+
+    .top-image {
+        height: 800px; /* 추가 이미지 높이 조정 (8배 크게) */
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(-100%, 0);
+        }
+    }
+
+    @keyframes car-marquee {
+        0% {
+            left: 100%;
+        }
+        100% {
+            left: -100%;
+        }
+    }
+
+    @keyframes top-marquee {
+        0% {
+            right: 100%;
+        }
+        100% {
+            right: -100%;
+        }
+    }
+</style>
 {% endblock %}

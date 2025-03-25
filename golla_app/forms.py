@@ -5,6 +5,12 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['title', 'choice_a', 'choice_b']
+        labels = {
+            'title': '🖥️문제줘🤖',
+            'choice_a': '🅰️',
+            'choice_b': '🅱️',
+        } 
+        
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': '질문을 입력하세요.'}),
             'choice_a': forms.TextInput(attrs={'placeholder': '보기 A를 입력하세요.'}),

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    {% if image_url %}
+        <div class="image-container">
+            <img src="{{ image_url }}" alt="Random Image" class="img-fluid">
+            <div class="overlay-text">404</div>
+        </div>
+    {% else %}
+        <p>{{ error }}</p>
+    {% endif %}
+</div>
+
+<style>
+    body {
+        background-color: #000000; /* 페이지 배경색을 검정색으로 변경 */
+        color: #FFFFFF; /* 기본 글자 색상을 흰색으로 설정 */
+        margin: 0; /* 기본 여백 제거 */
+        height: 100vh; /* 화면 높이를 100%로 설정 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .navbar {
+        display: none; /* Navbar 숨기기 */
+    }
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .img-fluid {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover; /* 이미지가 컨테이너를 꽉 채우도록 설정 */
+    }
+    .overlay-text {
+        position: absolute;
+        color: #FF0000; /* 텍스트 색상을 빨간색으로 설정 */
+        font-size: 60vw; /* 텍스트 크기를 화면 너비의 10%로 설정 */
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
+{% endblock %}

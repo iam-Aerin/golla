@@ -1,14 +1,15 @@
+import os
+import random  # random 모듈 import 추가
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Question, Answer
+from .models import Question, Answer, Image
 from .forms import QuestionForm, AnswerForm
-from random import choice
 
 def index(request):
     questions = Question.objects.order_by('-created_at')  # 최신순 정렬
     return render(request, 'golla_app/index.html', {
         'questions': questions
     })
-
 
 def create(request):
     if request.method == 'POST':
@@ -62,6 +63,16 @@ def edit_answer(request, answer_id):
 def random_article(request):
     questions = Question.objects.all()
     if questions.exists():
-        question = choice(questions)
+        question = random.choice(questions)
         return redirect('golla_app:detail', id=question.id)
     return redirect('golla_app:index')
+
+def random_image(request):
+    image_dir = os.path.join(settings.MEDIA_ROOT, 'images')
+    images = os.listdir(image_dir)
+    if images:
+        image = random.choice(images)
+        image_url = os.path.join(settings.MEDIA_URL, 'images', image)
+        return render(request, 'golla_app/random_image.html', {'image_url': image_url})
+    else:
+        return render(request, 'golla_app/random_image.html', {'error': 'No images found'})

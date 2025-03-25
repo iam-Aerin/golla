@@ -16,3 +16,11 @@ class Answer(models.Model):
     selected = models.CharField(max_length=1, choices=CHOICES)
     comment = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+
+class Image(models.Model):
+    image = models.ImageField(upload_to='images/')
+    description = models.CharField(max_length=555, blank=True)
+
+    def __str__(self):
+        return self.description or "Image"

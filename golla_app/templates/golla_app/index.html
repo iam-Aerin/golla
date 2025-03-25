@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block body %}
-<h2 class="my-4">전체 질문 목록</h2>
+<div class="marquee-container">
+    <div class="marquee">
+        <h2 class="my-4">  문제은행                                                                                     </h2>
+    </div>
+</div>
 
 {% if questions %}
   <ul class="list-group">
@@ -11,7 +15,7 @@
           {{ question.title }}
         </a>
         <br>
-        <small class="text-muted">보기 A: {{ question.choice_a }} / 보기 B: {{ question.choice_b }}</small>
+        <!-- <small class="text-muted">보기 A: {{ question.choice_a }} / 보기 B: {{ question.choice_b }}</small> -->
       </li>
     {% endfor %}
   </ul>
@@ -19,4 +23,37 @@
   <p>등록된 질문이 없습니다.</p>
 {% endif %}
 
+<style>
+    body {
+        background-color: #000000; /* 페이지 배경색을 검정색으로 변경 */
+        color: #FFFFFF; /* 기본 글자 색상을 흰색으로 설정 */
+    }
+    .marquee-container {
+        overflow: hidden;
+        white-space: nowrap;
+        box-sizing: border-box;
+        width: 100%;
+        background-color: #FFFF00; /* 배경색을 야광 노란색으로 변경 */
+        color: #000000; /* 기본 글자 색상을 흰색으로 설정 */
+        padding: 50px 0; /* 상하 여백 추가 */
+        margin-bottom: 20px; /* 아래쪽 여백 추가 */
+
+    }
+
+    .marquee {
+        display: inline-block;
+        animation: marquee 7.5s linear infinite; /* 속도 20배 빠르게 조정 */
+    }
+
+
+    
+    @keyframes marquee {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+</style>
 {% endblock %}
