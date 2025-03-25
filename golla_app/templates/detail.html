@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.content }}</p>
+    <a href="{% url 'golla_app:update' article.id %}">update</a>
+    <a href="{% url 'golla_app:delete' article.id %}">delete</a>
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.content }} <a href="{% url 'golla_app:comment_delete' article.id comment.id %}">delete</a></li>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{% url 'golla_app:comment_create' article.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add comment</button>
+    </form>
+{% endblock %}
